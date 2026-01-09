@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  /* Vaaradhi Brand Colors */
+  --color-primary-orange: #E67E22;
+  /* Signature Vaaradhi Orange */
+  --color-primary-brown: #4A3B2A;
+  /* Earthy Dark Brown */
+  --color-soft-cream: #FFF8E1;
+  /* Light Cream Background */
+  --color-forest-green: #2E5940;
+  /* Status/Secondary Green */
+
+  /* Mappings */
+  --color-primary: var(--color-primary-orange);
+  --color-secondary: var(--color-primary-brown);
+  --color-accent: var(--color-primary-orange);
+  --color-background: var(--color-soft-cream);
+
+  /* Typography */
+  --font-serif: 'Merriweather', 'serif';
+  --font-sans: 'Montserrat', 'sans-serif';
+}
+
+body {
+  background-color: #FEFEFE;
+  /* Clean White Base */
+  color: var(--color-primary-brown);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+}
