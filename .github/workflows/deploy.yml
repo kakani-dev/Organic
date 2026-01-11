@@ -57,6 +57,11 @@ jobs:
           app-name: 'organic-CEN-8333'
 
           publish-profile: |
-            <publishData><publishProfile profileName="organic-CEN-8333 - Web Deploy" publishMethod="MSDeploy" publishUrl="organic-cen-8333.scm.azurewebsites.net:443" msdeploySite="organic-CEN-8333" userName="REDACTED" userPWD="REDACTED" destinationAppUrl="http://organic-cen-8333.azurewebsites.net" SQLServerDBConnectionString="REDACTED" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="organic-CEN-8333 - FTP" publishMethod="FTP" publishUrl="ftps://waws-prod-dm1-241.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="REDACTED" userPWD="REDACTED" destinationAppUrl="http://organic-cen-8333.azurewebsites.net" SQLServerDBConnectionString="REDACTED" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="organic-CEN-8333 - Zip Deploy" publishMethod="ZipDeploy" publishUrl="organic-cen-8333.scm.azurewebsites.net:443" userName="REDACTED" userPWD="REDACTED" destinationAppUrl="http://organic-cen-8333.azurewebsites.net" SQLServerDBConnectionString="REDACTED" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites"><databases /></publishProfile></publishData>
+            # PASTE YOUR AZURE PUBLISH PROFILE XML HERE
+            # To get it:
+            # 1. Go to Azure Portal > App Service > organic-CEN-8333
+            # 2. Click 'Get publish profile'
+            # 3. Open the file and copy everything
+            <placeholder>PASTE_XML_CONTENT_HERE</placeholder>
           package: .
 
