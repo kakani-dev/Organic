@@ -59,6 +59,11 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          app-name: 'organic-CEN-8333'
+          # WARNING: Committing the publish profile to git is INSECURE. 
+          # It is strongly recommended to use Repository Secrets.
+          # If you must put it here, uncomment the line below and paste the XML content after the pipe (|)
+          # publish-profile: |
+          #   <publishData> PASTE YOUR XML PROFILE CONTENT HERE </publishData>
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
