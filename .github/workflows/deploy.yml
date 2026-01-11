@@ -56,5 +56,7 @@ jobs:
         with:
           app-name: 'organic-CEN-8333'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: |
+            <publishData><publishProfile profileName="organic-CEN-8333 - Web Deploy" publishMethod="MSDeploy" publishUrl="organic-cen-8333.scm.azurewebsites.net:443" msdeploySite="organic-CEN-8333" userName="REDACTED" userPWD="REDACTED" destinationAppUrl="http://organic-cen-8333.azurewebsites.net" SQLServerDBConnectionString="REDACTED" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="organic-CEN-8333 - FTP" publishMethod="FTP" publishUrl="ftps://waws-prod-dm1-241.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="REDACTED" userPWD="REDACTED" destinationAppUrl="http://organic-cen-8333.azurewebsites.net" SQLServerDBConnectionString="REDACTED" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="organic-CEN-8333 - Zip Deploy" publishMethod="ZipDeploy" publishUrl="organic-cen-8333.scm.azurewebsites.net:443" userName="REDACTED" userPWD="REDACTED" destinationAppUrl="http://organic-cen-8333.azurewebsites.net" SQLServerDBConnectionString="REDACTED" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites"><databases /></publishProfile></publishData>
           package: .
+
