@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
 
 const AdminOrders = () => {
-    // Mock Orders Data
-    const orders = [
-        { id: '#ORD-7829', customer: 'Raju Kumar', date: 'Oct 24, 2023', total: 1250, status: 'Delivered' },
-        { id: '#ORD-7830', customer: 'Priya Reddy', date: 'Oct 24, 2023', total: 650, status: 'Processing' },
-        { id: '#ORD-7831', customer: 'Anita Singh', date: 'Oct 23, 2023', total: 3400, status: 'Shipped' },
-        { id: '#ORD-7832', customer: 'Vikram Mehta', date: 'Oct 23, 2023', total: 890, status: 'Cancelled' },
-        { id: '#ORD-7833', customer: 'Suresh Raina', date: 'Oct 22, 2023', total: 1500, status: 'Delivered' },
-    ];
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        fetch(`${apiUrl}/orders`)
+            .then(res => res.json())
+            .then(data => setOrders(data.reverse())) // Show newest first
+            .catch(err => console.error('Error fetching orders:', err));
+    }, []);
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -17,6 +18,7 @@ const AdminOrders = () => {
             case 'Processing': return 'bg-blue-100 text-blue-800';
             case 'Shipped': return 'bg-orange-100 text-orange-800';
             case 'Cancelled': return 'bg-red-100 text-red-800';
+            case 'Paid': return 'bg-green-100 text-green-800';
             default: return 'bg-gray-100 text-gray-800';
         }
     };
@@ -25,7 +27,7 @@ const AdminOrders = () => {
         <AdminLayout>
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-                    <h3 className="font-bold text-gray-800">Recent Orders</h3>
+                    <h3 className="font-bold text-gray-800">Recent Orders (Real Data)</h3>
                     <div className="flex gap-2">
                         <button className="px-3 py-1 bg-white border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">Filter</button>
                         <button className="px-3 py-1 bg-white border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">Export</button>
@@ -43,22 +45,33 @@ const AdminOrders = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                        {orders.map(order => (
-                            <tr key={order.id} className="hover:bg-gray-50 transition">
-                                <td className="px-6 py-4 text-sm font-bold text-gray-900">{order.id}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{order.customer}</td>
-                                <td className="px-6 py-4 text-sm text-gray-500">{order.date}</td>
-                                <td className="px-6 py-4 text-sm font-bold text-gray-900">₹{order.total}</td>
-                                <td className="px-6 py-4">
-                                    <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase ${getStatusColor(order.status)}`}>
-                                        {order.status}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <button className="text-primary hover:text-orange-700 font-bold text-xs uppercase">View</button>
+                        {orders.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
+                                    No orders found yet.
                                 </td>
                             </tr>
-                        ))}
+                        ) : (
+                            orders.map(order => (
+                                <tr key={order.id} className="hover:bg-gray-50 transition">
+                                    <td className="px-6 py-4 text-sm font-bold text-gray-900">{order.id}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-700">
+                                        {order.customer?.name || 'Unknown'}
+                                        <div className="text-xs text-gray-400">{order.customer?.email}</div>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-500">{new Date(order.date).toLocaleDateString()}</td>
+                                    <td className="px-6 py-4 text-sm font-bold text-gray-900">₹{parseFloat(order.total).toFixed(2)}</td>
+                                    <td className="px-6 py-4">
+                                        <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase ${getStatusColor(order.status)}`}>
+                                            {order.status}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <button className="text-primary hover:text-orange-700 font-bold text-xs uppercase">View</button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

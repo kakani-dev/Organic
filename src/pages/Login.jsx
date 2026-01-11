@@ -10,7 +10,9 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         if (email === 'user@organicfarm.com' && password === 'password') {
-            navigate('/');
+            const user = { name: 'Demo User', email: 'user@organicfarm.com' };
+            localStorage.setItem('user', JSON.stringify(user));
+            navigate('/home');
         } else {
             alert('Invalid Credentials. Try user@organicfarm.com / password');
         }
