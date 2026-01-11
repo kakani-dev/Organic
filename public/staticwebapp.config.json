@@ -1,0 +1,13 @@
+{
+    "navigationFallback": {
+        "rewrite": "/index.html"
+    },
+    "routes": [
+        {
+            "route": "/admin/dashboard",
+            "allowedRoles": [
+                "authenticated"
+            ]
+        }
+    ]
+}
