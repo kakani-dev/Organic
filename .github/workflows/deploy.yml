@@ -54,14 +54,8 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'organic-CEN-8333'
+          app-name: 'organic-cen-9944'
 
-          publish-profile: |
-            # PASTE YOUR AZURE PUBLISH PROFILE XML HERE
-            # To get it:
-            # 1. Go to Azure Portal > App Service > organic-CEN-8333
-            # 2. Click 'Get publish profile'
-            # 3. Open the file and copy everything
-            <placeholder>PASTE_XML_CONTENT_HERE</placeholder>
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
 
