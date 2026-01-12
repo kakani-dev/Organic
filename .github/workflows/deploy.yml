@@ -26,7 +26,7 @@ jobs:
 
       - name: Create deployment artifact
         run: |
-          zip -r release.zip dist server package.json yarn.lock sp_creds.json
+          zip -r release.zip dist server package.json yarn.lock sp_creds.json web.config
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
