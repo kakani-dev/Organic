@@ -307,14 +307,14 @@ const Checkout = () => {
                         Payment Details
                     </h2>
 
-                    <div className="flex gap-4 mb-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                         <button
                             type="button"
                             onClick={() => setPaymentMethod('card')}
                             className={`flex-1 py-3 px-4 rounded-xl border-2 font-medium transition flex items-center justify-center gap-2 ${paymentMethod === 'card' ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 hover:border-primary/50 text-gray-600'}`}
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            Online Payment (Secure)
+                            Card
                         </button>
                         <button
                             type="button"
@@ -322,20 +322,51 @@ const Checkout = () => {
                             className={`flex-1 py-3 px-4 rounded-xl border-2 font-medium transition flex items-center justify-center gap-2 ${paymentMethod === 'upi' ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 hover:border-primary/50 text-gray-600'}`}
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                            Direct UPI / QR
+                            UPI/QR
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setPaymentMethod('demo')}
+                            className={`flex-1 py-3 px-4 rounded-xl border-2 font-medium transition flex items-center justify-center gap-2 ${paymentMethod === 'demo' ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 hover:border-primary/50 text-gray-600'}`}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Demo Pay
                         </button>
                     </div>
 
                     {paymentMethod === 'card' ? (
                         clientSecret ? (
                             <Elements options={options} stripe={stripePromise}>
-                                <PaymentForm amount={cartTotal} onSuccess={() => setIsSuccess(true)} />
+                                <PaymentForm amount={cartTotal} onSuccess={handleSuccess} />
                             </Elements>
                         ) : (
-                            <div className="flex justify-center p-8">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                            <div className="flex flex-col items-center justify-center p-8 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4"></div>
+                                <p className="text-sm text-gray-500 text-center">Loading Stripe Secure Elements...</p>
+                                <button onClick={() => setPaymentMethod('demo')} className="mt-4 text-primary text-sm font-bold hover:underline">
+                                    Use Demo Payment instead?
+                                </button>
                             </div>
                         )
+                    ) : paymentMethod === 'demo' ? (
+                        <div className="bg-primary/5 p-8 rounded-xl border border-primary/20 text-center animate-in zoom-in duration-300">
+                            <h3 className="font-bold text-primary mb-2">Demo One-Click Payment</h3>
+                            <p className="text-gray-600 text-sm mb-6">Test the full ordering and receipt flow without actual payment.</p>
+
+                            <button
+                                onClick={async (e) => {
+                                    const btn = e.currentTarget;
+                                    btn.disabled = true;
+                                    btn.innerHTML = '<span class="animate-pulse">Processing Demo...</span>';
+                                    await new Promise(r => setTimeout(r, 1500));
+                                    handleSuccess();
+                                }}
+                                className="w-full bg-primary text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                Pay ₹{cartTotal.toFixed(2)} (Demo)
+                            </button>
+                        </div>
                     ) : (
                         <div className="bg-gray-50 p-8 rounded-xl border border-gray-200 text-center animate-in fade-in duration-300">
                             <h3 className="font-bold text-gray-800 mb-2">Scan to Pay</h3>
